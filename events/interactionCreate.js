@@ -30,13 +30,11 @@ module.exports = {
     } else if (interaction.commandName === "join-vc") {
       await command.execute(interaction);
     } else if (interaction.commandName === "leave-vc") {
-      await command.execute(interaction);
+      await command.execute(interaction, player);
     } else if (interaction.commandName === "play") {
       await command.execute(interaction, player, audioToPlay);
     } else if (interaction.commandName === "pause") {
       await command.execute(interaction, player, audioToPlay);
-    } else if (interaction.commandName === "unpause") {
-      await command.execute(interaction, player, audioToPlay);
-    }
+    } 
   },
 };

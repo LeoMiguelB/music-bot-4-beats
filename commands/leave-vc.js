@@ -5,16 +5,21 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("leave-vc")
     .setDescription("leaves current vc"),
-  async execute(interaction, audioToPlay) {
+  async execute(interaction, player) {
     const connection = getVoiceConnection(interaction.guild.id);
 
     //bot needs to be connected to a voice channel
     if (connection) {
-      //get connection
+      
+      player.stop();
+
       connection.destroy();
-      interaction.reply(`${interaction.client.user.username} has left the vc`);
+
+      await interaction.reply(
+        `${interaction.client.user.username} has left the vc`
+      );
     } else {
-      interaction.reply(
+      await interaction.reply(
         connection ? "bot is not in that channel" : "bot is not in a channel"
       );
     }

@@ -20,17 +20,30 @@ module.exports = {
 
     const connection = getVoiceConnection(interaction.guild.id);
 
-    if (connection && player.state.status == "idle") {
-      player.play(resource);
+    const status =
+      player.state.status == "idle" ||
+      player.state.status == "paused" ||
+      player.state.status == "autopaused";
 
-      connection.subscribe(player);
+    console.log(status);
 
-      interaction.reply(`currently playing...`);
+    if (connection && status) {
+      if (player.state.status == "paused") {
+        await player.unpause();
+
+        await interaction.reply("unpaused the audio");
+      } else {
+        await player.play(resource);
+
+        connection.subscribe(player);
+
+        await interaction.reply(`currently playing...`);
+      }
     } else {
-      interaction.reply(
+      await interaction.reply(
         connection
-          ? "bot needs to be in a channel to play audio"
-          : "bot is already playing audio"
+          ? "bot is already playing audio"
+          : "bot is not in a voice channel"
       );
     }
   },
